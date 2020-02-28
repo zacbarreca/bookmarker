@@ -1,13 +1,20 @@
+/**********
+ * IMPORTS
+ **********/
+// Import exports from store.js
+import store from './store.js';
+
 /****************
  * GENERATORS ***
  ****************/
 
+// Generate the home page html
 function generateHomeHtml() {
   return `
     <div class="controls">
-      <button id="add">Add</button>
+      <button id="add-bookmark-btn">Add Bookmark</button>
       <select>
-        <option value="">Filter</option>
+        <option value="">Filter By Rating</option>
         <option value="5">⭐⭐⭐⭐⭐</option>
         <option value="4">⭐⭐⭐⭐</option>
         <option value="3">⭐⭐⭐</option>
@@ -20,20 +27,30 @@ function generateHomeHtml() {
   `;
 }
 
+// Generates the html template for each bookmark
+/* under construction
 function generateBookmarkHtml() {
   return `
 
   `;
 }
+*/
 
+// Generates the html form for a user to submit a new bookmark
+function generateAddBookmarkFormHtml() {
+  return `
 
+  `;
+}
 /****************
  * EVENT HANDLERS
  ****************/
+
+// Show add new bookmark form when user clicks add button on home page
 function handleAddBookmark() {
-  $('main').on('click', '#add', function (event) {
+  $('main').on('click', '#add-bookmark-btn', function (event) {
     event.preventDefault();
-    console.log('You clicked the add button');
+    store.adding = true;
   });
 }
 
@@ -43,6 +60,9 @@ function handleAddBookmark() {
 
 function render() {
   let html = '';
+  if (store.adding) {
+    $('main').html(generateAddBookmarkFormHtml());
+  }
   $('main').html(generateHomeHtml());
 }
 
@@ -52,6 +72,7 @@ function render() {
 
 function handleBookmarker() {
   render();
+  handleAddBookmark();
 }
 
 handleBookmarker();
