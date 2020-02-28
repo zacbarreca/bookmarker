@@ -12,7 +12,7 @@ function addBookmark(newBookmark) {
   return fetch(apiURL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newBookmark)
+    body: newBookmark
   })
     .then(res => res.json());
 }

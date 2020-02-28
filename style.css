@@ -2,4 +2,20 @@
   box-sizing: border-box;
   margin: 0 auto;
   font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.block, ul {
+      text-align: center;
+      border: 3px solid black;
+      width: 50%;
+      margin-bottom: 6px;
+      margin-top: 6px;
+      padding: 10px;
+      background-color: whitesmoke;
+    }
+
+ul {
+  list-style: none;
 }
