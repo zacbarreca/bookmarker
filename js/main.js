@@ -63,8 +63,8 @@ function generateAddBookmarkFormHtml() {
           <option value="2">⭐⭐</option>
           <option value="1">⭐</option>
         </select><br>
-        <input type="submit"></input>
-        <input type="button" value="Cancel"></input>
+        <button type="submit" id="submit-btn">Submit</button>
+        <button type="button" value="Cancel" id="cancel-btn">Cancel</button>
       </fieldset>
     </form>
   `;
@@ -85,20 +85,12 @@ function handleAddBookmark() {
 // Handle submit add new bookmark form
 
 function handleSubmit() {
-  $('main').on('click', 'submit', function (event) {
+  $('form').on('click', '#submit-btn', function (event) {
+    console.log('Hello from inside handleSubmit');
+    console.log(event.target);
     event.preventDefault();
-    let title = $('#title').val();
-    let url = $('#url').val();
-    let description = $('#description').val();
-    let rating = $('#rating').val();
-    let bookmark = {
-      title: title,
-      url: url,
-      desc: description,
-      rating: rating
-    };
-
-    api.addBookmark(bookmark)
+    let newBookmark = serialize(event.target);
+    api.addBookmark(newBookmark)
       .then(res => {
         store.addBookmark(res);
         store.adding = false;
@@ -139,3 +131,10 @@ function handleBookmarker() {
 }
 
 handleBookmarker();
+
+function serialize(form) {
+  let formData = new FormData(form);
+  const o = {};
+  formData.forEach((val, name) => o[name] = val);
+  return JSON.stringify(o);
+}
