@@ -2,6 +2,7 @@
  * IMPORTS
  **********/
 // Import exports from store.js
+import api from './api.js';
 import store from './store.js';
 
 /****************
@@ -28,13 +29,18 @@ function generateHomeHtml() {
 }
 
 // Generates the html template for each bookmark
-/* under construction
-function generateBookmarkHtml() {
+// under construction
+function generateBookmarkHtml(bookmark) {
   return `
-
+    <section id="bookmark">
+      <ul id="${bookmark.id}">
+        <li>${bookmark.title}</li>
+        <li>${bookmark.rating}</li>
+      </ul>
+    </section>
   `;
 }
-*/
+
 
 // Generates the html form for a user to submit a new bookmark
 function generateAddBookmarkFormHtml() {
@@ -47,7 +53,7 @@ function generateAddBookmarkFormHtml() {
         <label for="url">URL:</label><br>
         <input type="text" id="url" name="url"></input><br>
         <label for="description">Description:</label><br>
-        <input type="text-area" id="description" name="description"></input><br>
+        <textarea id="description" name="description"></textarea><br>
         <select id="rating">
           <option value="">Rating</option>
           <option value="5">⭐⭐⭐⭐⭐</option>
@@ -80,7 +86,24 @@ function handleAddBookmark() {
 function handleSubmit() {
   $('main').on('click', 'submit', function (event) {
     event.preventDefault();
-    console.log('Test test');
+    let title = $('#title').val();
+    let url = $('#url').val();
+    let description = $('#description').val();
+    let rating = $('#rating').val();
+    let newBookmark = {
+      title: title,
+      url: url,
+      description: description,
+      rating: rating
+    };
+
+    api.addBookmark(newBookmark)
+      .then(res => {
+        store.addBookmark(res);
+        store.adding = false;
+        render();
+      })
+      .catch(error => (store.error = error.message));
   });
 }
 /********************
@@ -89,11 +112,19 @@ function handleSubmit() {
 
 function render() {
   let html = '';
+  let bookmarks = store.bookmarks.filter(bookmark => {
+    return bookmark.rating >= store.filter;
+  });
+
   if (store.adding) {
-    $('main').html(generateAddBookmarkFormHtml());
-  } else {
-    $('main').html(generateHomeHtml());
+    html = (generateAddBookmarkFormHtml());
+  } else if (bookmarks.length > 0) {
+    html = generateHomeHtml();
+    html += bookmarks.map(generateBookmarkHtml).join('');
+  } else if (bookmarks.length === 0) {
+    html = generateHomeHtml();
   }
+  $('main').html(html);
 }
 
 /**************
@@ -103,6 +134,7 @@ function render() {
 function handleBookmarker() {
   render();
   handleAddBookmark();
+  handleSubmit();
 }
 
 handleBookmarker();
