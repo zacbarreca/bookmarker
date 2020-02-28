@@ -36,6 +36,7 @@ function generateBookmarkHtml(bookmark) {
       <ul id="${bookmark.id}">
         <li>${bookmark.title}</li>
         <li>${bookmark.rating}</li>
+        <li>${bookmark.desc}</li>
       </ul>
     </section>
   `;
@@ -90,14 +91,14 @@ function handleSubmit() {
     let url = $('#url').val();
     let description = $('#description').val();
     let rating = $('#rating').val();
-    let newBookmark = {
+    let bookmark = {
       title: title,
       url: url,
-      description: description,
+      desc: description,
       rating: rating
     };
 
-    api.addBookmark(newBookmark)
+    api.addBookmark(bookmark)
       .then(res => {
         store.addBookmark(res);
         store.adding = false;
