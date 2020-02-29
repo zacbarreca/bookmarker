@@ -30,14 +30,21 @@ function generateHomeHtml() {
   `;
 }
 
-// Generates the html template for each bookmark
+// Conditionally generates the html template for each bookmark 
 function generateBookmarkHtml(bookmark) {
-  return `
-    <section id="bookmark">
-      <ul data-item-id="${bookmark.id}">
+  let expandedHtml = bookmark.expanded
+    ? `
+        <li>${bookmark.desc}</li>
+        <li>${bookmark.url}</li>
+      <button id="delete-btn" type='submit'>Delete</button>
+      `
+    : '';
+  return`
+    <section class="bookmark-sctn">
+      <ul data-item-id="${bookmark.id}" class="bookmark">
         <li>${bookmark.title}</li>
         <li>${bookmark.rating} ⭐</li>
-        <li>${bookmark.desc}</li>
+        ${expandedHtml}
       </ul>
     </section>
   `;
@@ -72,6 +79,7 @@ function generateAddBookmarkFormHtml() {
     </div>
   `;
 }
+
 /****************
  * EVENT HANDLERS
  ****************/
@@ -119,6 +127,17 @@ function handleFilterChange() {
 
   });
 }
+
+// Handles when a user clicks the bookmark to expand it
+function handleBookmarkExpand() {
+  $('main').on('click', '.bookmark', e => {
+    let id = $(e.currentTarget).closest('ul').data('id');
+    console.log('Hello from inside handleBookmarkExpand!')
+    store.expandBookmark(id);
+    render();
+  })
+}
+
 /********************
  * RENDER FUNCTION(S)
  ********************/
@@ -156,6 +175,7 @@ function handleBookmarker() {
   handleAddBookmark();
   handleSubmit();
   handleCancel();
+  handleBookmarkExpand();
 }
 
 //Call initializer
