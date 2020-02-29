@@ -117,7 +117,6 @@ function handleCancel() {
   });
 }
 
-
 // Handle when a user adjusts the rating filter
 function handleFilterChange() {
   $('main').on('change', '#filter', e => {
@@ -178,11 +177,7 @@ function handleBookmarker() {
   handleBookmarkExpand();
 }
 
-//Call initializer
-handleBookmarker();
-
-
-//Serializer for converting user input on the form to JSON
+//Serializer for converting user input on the add bookmark form to JSON
 function serialize(form) {
   let formData = new FormData(form);
   const o = {};
@@ -190,3 +185,6 @@ function serialize(form) {
   o.rating = Number(o.rating);
   return JSON.stringify(o);
 }
+
+//Call initializer
+handleBookmarker();
