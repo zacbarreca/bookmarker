@@ -1,3 +1,4 @@
+//The BASE URL and path for the API
 const apiURL = 'https://thinkful-list-api.herokuapp.com/zacbarreca/bookmarks';
 
 
@@ -17,6 +18,9 @@ function addBookmark(newBookmark) {
     .then(res => res.json());
 }
 
+/**********
+ * EXPORTS
+ **********/
 export default {
   apiRequest,
   addBookmark

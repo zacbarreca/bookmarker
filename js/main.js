@@ -1,7 +1,7 @@
 /**********
  * IMPORTS
  **********/
-// Import exports from store.js
+// Import exports from api.js and store.js
 import api from './api.js';
 import store from './store.js';
 
@@ -36,7 +36,7 @@ function generateBookmarkHtml(bookmark) {
     ? `
         <li>${bookmark.desc}</li>
         <li>${bookmark.url}</li>
-      <button id="delete-btn" type='submit'>Delete</button>
+      <button id="delete-btn" type="submit">Delete</button>
       `
     : '';
   return`
@@ -177,7 +177,7 @@ function handleBookmarker() {
   handleBookmarkExpand();
 }
 
-//Serializer for converting user input on the add bookmark form to JSON
+//Serializer for converting user input on the add bookmark form to a JSON string
 function serialize(form) {
   let formData = new FormData(form);
   const o = {};
