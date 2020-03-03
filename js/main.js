@@ -36,7 +36,7 @@ function generateBookmarkHtml(bookmark) {
     ? `
         <li>${bookmark.desc}</li>
         <li>${bookmark.url}</li>
-      <button id="delete-btn" type="submit">Delete</button>
+      <button class="delete-btn" type="submit">Delete</button>
       `
     : '';
   return`
@@ -130,11 +130,19 @@ function handleFilterChange() {
 // Handles when a user clicks the bookmark to expand it
 function handleBookmarkExpand() {
   $('main').on('click', '.bookmark', e => {
-    let id = $(e.currentTarget).closest('ul').data('id');
-    console.log('Hello from inside handleBookmarkExpand!')
+    let id = $(e.currentTarget).attr('data-item-id');
     store.expandBookmark(id);
     render();
   })
+}
+
+// Handles when a user clicks the delete button to remove a bookmark
+function handleBookmarkDelete() {
+  $('main').on('click', '.delete-btn', e => {
+    let id = $(e.currentTarget).closest('ul').attr('data-item-id');
+    api.deleteBookmark(id)
+      .then(render());
+  });
 }
 
 /********************
@@ -175,6 +183,7 @@ function handleBookmarker() {
   handleSubmit();
   handleCancel();
   handleBookmarkExpand();
+  handleBookmarkDelete();
 }
 
 //Serializer for converting user input on the add bookmark form to a JSON string

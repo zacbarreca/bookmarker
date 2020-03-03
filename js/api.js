@@ -18,10 +18,18 @@ function addBookmark(newBookmark) {
     .then(res => res.json());
 }
 
+// deletes a bookmark with a DELETE request
+function deleteBookmark(id) {
+  return fetch(`${apiURL}/${id}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json());
+}
 /**********
  * EXPORTS
  **********/
 export default {
   apiRequest,
-  addBookmark
+  addBookmark,
+  deleteBookmark
 };

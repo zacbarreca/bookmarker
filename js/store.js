@@ -11,13 +11,12 @@ function addBookmark(object) {
 
 // Used by the handleBookmarkExpand function in main.js to expand bookmarks
 function expandBookmark(id) {
-  let o = this.bookmarks.find(bookmark => bookmark.id !== id);
+  let o = this.bookmarks.find(bookmark => bookmark.id === id);
   if (!o){
     return;
   }
   o.expanded = !o.expanded;
 }
-
 
 /**********
  * EXPORTS
