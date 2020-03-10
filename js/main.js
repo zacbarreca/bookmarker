@@ -133,15 +133,16 @@ function handleBookmarkExpand() {
     let id = $(e.currentTarget).attr('data-item-id');
     store.expandBookmark(id);
     render();
-  })
+  });
 }
 
 // Handles when a user clicks the delete button to remove a bookmark
 function handleBookmarkDelete() {
   $('main').on('click', '.delete-btn', e => {
-    let id = $(e.currentTarget).closest('ul').attr('data-item-id');
+    const id = $(e.currentTarget).closest('ul').attr('data-item-id');
     api.deleteBookmark(id)
-      .then(render());
+      .then(() => store.deleteBookmark(id))
+      .then(render);
   });
 }
 

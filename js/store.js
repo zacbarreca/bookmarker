@@ -21,6 +21,7 @@ function expandBookmark(id) {
 // Used by the handleDeleteBookmark function in main.js to delete bookmarks
 function deleteBookmark(id) {
   this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+  return this.bookmarks;
 }
 
 
