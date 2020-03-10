@@ -39,7 +39,7 @@ function generateBookmarkHtml(bookmark) {
       <button class="delete-btn" type="submit">Delete</button>
       `
     : '';
-  return`
+  return `
     <section class="bookmark-sctn">
       <ul data-item-id="${bookmark.id}" class="bookmark">
         <li>${bookmark.title}</li>

@@ -12,11 +12,17 @@ function addBookmark(object) {
 // Used by the handleBookmarkExpand function in main.js to expand bookmarks
 function expandBookmark(id) {
   let o = this.bookmarks.find(bookmark => bookmark.id === id);
-  if (!o){
+  if (!o) {
     return;
   }
   o.expanded = !o.expanded;
 }
+
+// Used by the handleDeleteBookmark function in main.js to delete bookmarks
+function deleteBookmark(id) {
+  this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+}
+
 
 /**********
  * EXPORTS
@@ -28,5 +34,6 @@ export default {
   filter,
   error,
   addBookmark,
-  expandBookmark
+  expandBookmark,
+  deleteBookmark
 };
