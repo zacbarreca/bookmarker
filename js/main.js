@@ -35,7 +35,7 @@ function generateBookmarkHtml(bookmark) {
     let expandedHtml = bookmark.expanded
         ? `
         <li>${bookmark.desc}</li>
-        <li><a href=${bookmark.url} target="_blank">${bookmark.url}</li>
+        <li><a href=${bookmark.url} target="_blank">${bookmark.url}</a></li>
       <button class="delete-btn" type="submit">Delete</button>
       `
         : '';
@@ -45,6 +45,7 @@ function generateBookmarkHtml(bookmark) {
         <li>${bookmark.title}</li>
         <li>${bookmark.rating} ⭐</li>
         ${expandedHtml}
+        <button class="toggle-view" type="button">Toggle View</button>
       </ul>
     </section>
   `;
@@ -127,10 +128,10 @@ function handleFilterChange() {
     });
 }
 
-// Handles when a user clicks the bookmark to expand it
+// Handles when a user clicks the toggle view button to select either the expanded or concise view 
 function handleBookmarkExpand() {
-    $('main').on('click', '.bookmark', e => {
-        let id = $(e.currentTarget).attr('data-item-id');
+    $('main').on('click', '.toggle-view', e => {
+        let id = $(e.currentTarget).parent().attr('data-item-id');
         store.expandBookmark(id);
         render();
     });
