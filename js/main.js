@@ -11,7 +11,7 @@ import store from './store.js';
 
 // Generate the home page html
 function generateHomeHtml() {
-  return `
+    return `
     <div class="block">
       <div class="controls">
         <button id="add-bookmark-btn">Add Bookmark</button>
@@ -32,14 +32,14 @@ function generateHomeHtml() {
 
 // Conditionally generates the html template for each bookmark 
 function generateBookmarkHtml(bookmark) {
-  let expandedHtml = bookmark.expanded
-    ? `
+    let expandedHtml = bookmark.expanded
+        ? `
         <li>${bookmark.desc}</li>
-        <li>${bookmark.url}</li>
+        <li><a href=${bookmark.url} target="_blank">${bookmark.url}</li>
       <button class="delete-btn" type="submit">Delete</button>
       `
-    : '';
-  return `
+        : '';
+    return `
     <section class="bookmark-sctn">
       <ul data-item-id="${bookmark.id}" class="bookmark">
         <li>${bookmark.title}</li>
@@ -53,7 +53,7 @@ function generateBookmarkHtml(bookmark) {
 
 // Generates the html form for a user to submit a new bookmark
 function generateAddBookmarkFormHtml() {
-  return `
+    return `
     <div class="block">
       <form>
         <fieldset>
@@ -86,64 +86,64 @@ function generateAddBookmarkFormHtml() {
 
 // Show add new bookmark form when user clicks add button on home page
 function handleAddBookmark() {
-  $('main').on('click', '#add-bookmark-btn', e => {
-    e.preventDefault();
-    store.adding = true;
-    render();
-  });
+    $('main').on('click', '#add-bookmark-btn', e => {
+        e.preventDefault();
+        store.adding = true;
+        render();
+    });
 }
 
 // Handle submit add new bookmark form
 function handleSubmit() {
-  $('main').on('submit', 'form', e => {
-    e.preventDefault();
-    let newBookmark = serialize(e.target);
-    api.addBookmark(newBookmark)
-      .then(res => {
-        store.addBookmark(res);
-        store.adding = false;
-        render();
-      })
-      .catch(error => (store.error = error.message));
-  });
+    $('main').on('submit', 'form', e => {
+        e.preventDefault();
+        let newBookmark = serialize(e.target);
+        api.addBookmark(newBookmark)
+            .then(res => {
+                store.addBookmark(res);
+                store.adding = false;
+                render();
+            })
+            .catch(error => (store.error = error.message));
+    });
 }
 
 // Handle when a user cancels the add bookmark form
 function handleCancel() {
-  $('main').on('click', '#cancel-btn', e => {
-    e.preventDefault();
-    store.adding = false;
-    render();
-  });
+    $('main').on('click', '#cancel-btn', e => {
+        e.preventDefault();
+        store.adding = false;
+        render();
+    });
 }
 
 // Handle when a user adjusts the rating filter
 function handleFilterChange() {
-  $('main').on('change', '#filter', e => {
-    store.filter = parseInt($(e.currentTarget).val());
-    console.log(store.filter);
-    render();
+    $('main').on('change', '#filter', e => {
+        store.filter = parseInt($(e.currentTarget).val());
+        console.log(store.filter);
+        render();
 
-  });
+    });
 }
 
 // Handles when a user clicks the bookmark to expand it
 function handleBookmarkExpand() {
-  $('main').on('click', '.bookmark', e => {
-    let id = $(e.currentTarget).attr('data-item-id');
-    store.expandBookmark(id);
-    render();
-  });
+    $('main').on('click', '.bookmark', e => {
+        let id = $(e.currentTarget).attr('data-item-id');
+        store.expandBookmark(id);
+        render();
+    });
 }
 
 // Handles when a user clicks the delete button to remove a bookmark
 function handleBookmarkDelete() {
-  $('main').on('click', '.delete-btn', e => {
-    const id = $(e.currentTarget).closest('ul').attr('data-item-id');
-    api.deleteBookmark(id)
-      .then(() => store.deleteBookmark(id))
-      .then(render);
-  });
+    $('main').on('click', '.delete-btn', e => {
+        const id = $(e.currentTarget).closest('ul').attr('data-item-id');
+        api.deleteBookmark(id)
+            .then(() => store.deleteBookmark(id))
+            .then(render);
+    });
 }
 
 /********************
@@ -152,19 +152,19 @@ function handleBookmarkDelete() {
 
 // Renders html conditionally
 function render() {
-  let html = '';
-  let bookmarks = store.bookmarks.filter(bookmark => {
-    return bookmark.rating >= store.filter;
-  });
-  if (store.adding) {
-    html = (generateAddBookmarkFormHtml());
-  } else if (bookmarks.length > 0) {
-    html = generateHomeHtml();
-    html += bookmarks.map(generateBookmarkHtml).join('');
-  } else if (bookmarks.length === 0) {
-    html = generateHomeHtml();
-  }
-  $('main').html(html);
+    let html = '';
+    let bookmarks = store.bookmarks.filter(bookmark => {
+        return bookmark.rating >= store.filter;
+    });
+    if (store.adding) {
+        html = (generateAddBookmarkFormHtml());
+    } else if (bookmarks.length > 0) {
+        html = generateHomeHtml();
+        html += bookmarks.map(generateBookmarkHtml).join('');
+    } else if (bookmarks.length === 0) {
+        html = generateHomeHtml();
+    }
+    $('main').html(html);
 }
 
 /**************
@@ -173,27 +173,27 @@ function render() {
 
 //Initializer
 function handleBookmarker() {
-  api.apiRequest()
-    .then(bookmarks => {
-      bookmarks.forEach(bookmark => store.addBookmark(bookmark));
-      render();
-    });
-  render();
-  handleFilterChange();
-  handleAddBookmark();
-  handleSubmit();
-  handleCancel();
-  handleBookmarkExpand();
-  handleBookmarkDelete();
+    api.apiRequest()
+        .then(bookmarks => {
+            bookmarks.forEach(bookmark => store.addBookmark(bookmark));
+            render();
+        });
+    render();
+    handleFilterChange();
+    handleAddBookmark();
+    handleSubmit();
+    handleCancel();
+    handleBookmarkExpand();
+    handleBookmarkDelete();
 }
 
 //Serializer for converting user input on the add bookmark form to a JSON string
 function serialize(form) {
-  let formData = new FormData(form);
-  const o = {};
-  formData.forEach((val, name) => o[name] = val);
-  o.rating = Number(o.rating);
-  return JSON.stringify(o);
+    let formData = new FormData(form);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    o.rating = Number(o.rating);
+    return JSON.stringify(o);
 }
 
 //Call initializer
